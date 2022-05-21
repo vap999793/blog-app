@@ -3,6 +3,7 @@ const app = express();
 var morgan = require('morgan');
 const {createConnection} = require('./database/connection');
 // createConnection();
+const {userRouter} = require('./routers/routers');
 
 app.use(express.json());
 app.use(morgan('dev'));
@@ -12,10 +13,13 @@ app.get('/check', (req, res)=>{
 });
 
 APIRouter = express.Router();
+app.use('/api', APIRouter);
+
 APIRouter.get('/', (req, res)=>{
     res.send('API is running ... ');
 });
 
-app.use('/api', APIRouter);
+APIRouter.use('/users', userRouter);
+
 
 module.exports = {app};
